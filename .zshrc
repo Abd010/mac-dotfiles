@@ -113,6 +113,11 @@ source /Users/mabdurrab/.gimlet-home/trace2rc # This is used for core-on-git tra
 export PATH=~/.npm-global/bin:$PATH # or /Users/mabdurrab/.bashrc
 export PATH="$PATH:/Users/mabdurrab/bin"
 
+# --- Node Version Management (fnm) ---
+# Manages Node versions; Salesforce CLI (sf) needs an LTS line (20/22), not the
+# bleeding-edge non-LTS releases Homebrew's plain `node` formula tracks.
+eval "$(fnm env --use-on-cd)"
+
 # --- Java Version Management ---
 # 1. Define Paths (Based on your folder listing)
 export JAVA_17_HOME="/Library/Java/JavaVirtualMachines/openjdk_17.0.17.0.101_17.63.12_aarch64"
@@ -134,6 +139,9 @@ export PATH="/Users/mabdurrab/.codeium/windsurf/bin:$PATH"
 
 export PATH="$HOME/.local/bin:$PATH"
 
+# Hugging Face — shared cache for models & datasets across all ~/hanger projects
+export HF_HOME="$HOME/hanger/models"
+
 # quip automation
 export QUIP_TOKEN=$(security find-generic-password -a "$USER" -s "quip_api_token" -w)
 # Shortcut to get Quip thread content
@@ -148,3 +156,12 @@ eval "$(starship init zsh)"
 # devbar-managed-start
 export NODE_EXTRA_CA_CERTS="$HOME/.devbar/certs/corporate-ca-bundle.pem"
 # devbar-managed-end
+
+# >>> aisuite >>>
+export NODE_EXTRA_CA_CERTS="/Users/mabdurrab/.aisuite/conf/npm-sfdc-certs.pem"
+export PATH="$PATH:/Users/mabdurrab/.aisuite/bin:/Users/mabdurrab/.aisuite/bin/aliases"
+# <<< aisuite <<<
+
+# >>> mhtc-telemetry >>>
+export PATH='/Users/mabdurrab/.mh-telemetry-collector-aisuite/telemetry/opencode-shim':"$PATH"
+# <<< mhtc-telemetry <<<
