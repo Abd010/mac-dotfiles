@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+
+if [[ $# -eq 1 ]]; then
+    selected=$1
+else
+    # Respect the sticky session view (toggled by prefix+S in tmux). Config
+    # dirs always appear regardless of view; default to "all" outside tmux.
+    mode=$(tmux show -gv @session_view 2>/dev/null)
+    mode=${mode:-all}
+
+    case "$mode" in
+        office)   roots=(/opt/workspace) ;;
+        personal) roots=("$HOME/hanger") ;;
+        *)        roots=(/opt/workspace "$HOME/hanger") ;;
+    esac
+
+    selected=$( {
+        find "${roots[@]}" -mindepth 1 -maxdepth 2 -type d 2>/dev/null
+        echo "$HOME/.config/nvim"
+        echo "$HOME/.config/tmux"
+    } | fzf --prompt "${mode}> ")
+fi
+
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+selected_name=$(basename "$selected" | tr . _)
+tmux_running=$(pgrep tmux)
+
+if [[ -z $TMUX ]] && [[ -z $tmux_running ]]; then
+    tmux new-session -s "$selected_name" -c "$selected"
+    exit 0
+fi
+
+if ! tmux has-session -t="$selected_name" 2>/dev/null; then
+    tmux new-session -ds "$selected_name" -c "$selected"
+fi
+
+tmux switch-client -t "$selected_name"

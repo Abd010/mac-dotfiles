@@ -1,0 +1,36 @@
+		# Font
+font-family = "FiraCode Nerd Font Mono"
+font-size = 13
+
+# Theme - matches your tmux/nvim catppuccin setup
+theme = "Catppuccin Mocha"
+
+# Terminal compatibility
+# Using xterm-256color to match your tmux terminal-overrides config
+# Switch to xterm-ghostty once you install ghostty terminfo
+term = xterm-ghostty
+
+# Window
+window-padding-x = 4
+window-padding-y = 4
+macos-titlebar-style = hidden
+macos-option-as-alt = true
+window-save-state = always
+
+# Mouse
+mouse-scroll-multiplier = 3
+
+# Shell integration
+shell-integration = zsh
+shell-integration-features = cursor,sudo,title
+
+# Clipboard
+clipboard-read = allow
+clipboard-write = allow
+
+# Cursor
+cursor-style = block
+cursor-style-blink = false
+
+# Scrollback
+scrollback-limit = 10000

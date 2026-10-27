@@ -1,0 +1,23 @@
+# Starship prompt config.
+# Only the AWS segment is overridden here; every other module keeps its
+# default behavior (starship merges this file over the built-in defaults).
+
+# The built-in `aws` module reads the region from ~/.aws/config, which falcon
+# leaves on disk permanently — so it renders in EVERY pane (even idle ones)
+# and often shows a stale region from the last `falcon credentials config`.
+# Disable it and drive the display from an env var that only exists during an
+# active session instead.
+[aws]
+disabled = true
+
+# Shows the cloud segment ONLY while a falcon session is active in this shell:
+#   * $FALCON_ENV  — set by the `fe` helper (shows e.g. "cg-perf")
+#   * $AWS_SESSION_TOKEN — present inside a `falcon credentials exec` subshell
+# Idle panes set neither, so the segment stays hidden.
+[custom.falconaws]
+description = "AWS/falcon context — only while a session is active"
+when = '[ -n "$FALCON_ENV" ] || [ -n "$AWS_SESSION_TOKEN" ]'
+command = 'echo "${FALCON_ENV:-${AWS_REGION:-$AWS_DEFAULT_REGION}}"'
+shell = ['sh']
+format = 'on [☁️  $output]($style) '
+style = 'bold yellow'
